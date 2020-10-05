@@ -28,7 +28,5 @@
 #define LED_OFF 0
 
 extern BlynkWifi Blynk;
-extern bool Status;
-extern uint8_t Threshold;
 
 #endif

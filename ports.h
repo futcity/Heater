@@ -20,8 +20,13 @@
 
 #define VP_CUR_TEMP		V30
 
-extern WidgetLED LedStatus;
-extern WidgetLED LedHeater;
+typedef enum {
+    STATUS_LED_WIDGET,
+    HEATER_LED_WIDGET
+} LedWidgetType;
+
+extern uint8_t LedWidgetsCount;
+extern WidgetLED *LedWidgets[];
 
 void PortsInit();
 

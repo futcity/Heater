@@ -9,9 +9,17 @@
 #include "ports.h"
 #include "common.h"
 #include "heater.h"
+#include "boards.h"
 
 WidgetLED LedStatus(Blynk);
 WidgetLED LedHeater(Blynk);
+
+WidgetLED *LedWidgets[] = {
+    &LedStatus,
+    &LedHeater
+};
+
+uint8_t LedWidgetsCount = ARRAY_ITEMS_COUNT(LedWidgets);
 
 void PortsInit()
 {
@@ -27,15 +35,14 @@ BLYNK_CONNECTED()
 BLYNK_WRITE(VP_STATUS_SWITCH)
 {
     if (param.asInt() == TRUE) {
-        Status = true;
+        HeaterSetStatus(true);
     } else {
-        Status = false;
+        HeaterSetStatus(false);
     }
-
-    HeaterUpdate(Status);
+    HeaterUpdate();
 }
 
 BLYNK_WRITE(VP_THRESHOLD)
 {
-    Threshold = param.asInt();
+    HeaterSetThreshold(param.asInt());
 }

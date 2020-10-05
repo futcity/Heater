@@ -11,6 +11,3 @@
 WiFiClient Client;
 BlynkArduinoClient Transport(Client);
 BlynkWifi Blynk(Transport);
-
-bool Status = false;
-uint8_t Threshold = 25;

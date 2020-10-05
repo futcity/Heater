@@ -19,16 +19,17 @@ SimpleTimer MainTimer;
 
 static void ReadButton()
 {
-    if (digitalRead(Button) == LOW) {
-        Status = !Status;
-        HeaterUpdate(Status);
+    if (digitalRead(Buttons[MAIN_BUTTON]) == LOW) {
+        HeaterSwitchStatus();
+        HeaterUpdate();
+        Blynk.virtualWrite(VP_STATUS_SWITCH, (int)HeaterGetStatus());
         delay(600);
     }
 }
 
 static void MainTimerCallback()
 {
-    HeaterUpdate(Status);
+    HeaterUpdate();
 }
 
 void setup()
@@ -36,9 +37,17 @@ void setup()
     PortsInit();
     Blynk.begin(DEVICE_KEY, WIFI_SSID, WIFI_PASSWD, BLYNK_SERVER, BLYNK_SERVER_PORT);
 
-    pinMode(Button, INPUT_PULLUP);
-    pinMode(Led, OUTPUT);
-    pinMode(Relay, OUTPUT);
+    for (uint8_t i = 0; i < ButtonsCount; i++) {
+        pinMode(Buttons[i], INPUT_PULLUP);
+    }
+
+    for (uint8_t i = 0; i < RelaysCount; i++) {
+        pinMode(Relays[i], OUTPUT);
+    }
+
+    for (uint8_t i = 0; i < LedsCount; i++) {
+        pinMode(Leds[i], OUTPUT);
+    }
 
     MainTimer.setInterval(MAIN_TMR_DELAY, MainTimerCallback);
 }

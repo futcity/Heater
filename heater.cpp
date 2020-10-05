@@ -11,13 +11,49 @@
 #include "ports.h"
 #include "common.h"
 
+bool Status = false;
+uint8_t Threshold = 25;
+
+/*
+ * Private functions
+ */
+
 static int8_t ReadTemp()
 {
-    TempSensor.requestTemperatures();
-    return TempSensor.getTempCByIndex(DEFAULT_SENSOR);
+    TempSensors[AIR_SENSOR]->requestTemperatures();
+    return TempSensors[AIR_SENSOR]->getTempCByIndex(DEFAULT_SENSOR);
 }
 
-void HeaterUpdate(bool status)
+/*
+ * Public functions
+ */
+
+uint8_t HeaterGetThreshold()
+{
+    return Threshold;
+}
+
+void HeaterSetThreshold(uint8_t val)
+{
+    Threshold = val;
+}
+
+bool HeaterGetStatus()
+{
+    return Status;
+}
+
+void HeaterSetStatus(bool val)
+{
+    Status = val;
+}
+
+void HeaterSwitchStatus()
+{
+    Status = !Status;
+}
+
+void HeaterUpdate()
 {
     int8_t curTemp;
         
@@ -31,25 +67,34 @@ void HeaterUpdate(bool status)
     Blynk.virtualWrite(VP_CUR_TEMP, curTemp);
 
     if (curTemp == TEMP_ERR_VAL) {
-        digitalWrite(Relay, LOW);
-        LedHeater.off();
+        digitalWrite(Relays[HEATER_RELAY], LOW);
+        LedWidgets[HEATER_LED_WIDGET]->off();
         return;
     }
 
-    if (status) {
+    if (HeaterGetStatus()) {
+        /*
+         * Control air temperature
+         */
         if (curTemp < Threshold) {
-            digitalWrite(Relay, HIGH);
-            LedHeater.on();
+            digitalWrite(Relays[HEATER_RELAY], HIGH);
+            LedWidgets[HEATER_LED_WIDGET]->on();
         } else {
-            digitalWrite(Relay, LOW);
-            LedHeater.off();
+            digitalWrite(Relays[HEATER_RELAY], LOW);
+            LedWidgets[HEATER_LED_WIDGET]->off();
         }
-        digitalWrite(Led, LOW);
-        LedStatus.on();
+
+        digitalWrite(Leds[STATUS_LED], LOW);
+        LedWidgets[STATUS_LED_WIDGET]->on();
     } else {
-        digitalWrite(Relay, LOW);
-        digitalWrite(Led, HIGH);
-        LedStatus.off();
-        LedHeater.off();
+        for (uint8_t i = 0; i < RelaysCount; i++) {
+            digitalWrite(Relays[i], LOW);
+        }
+        for (uint8_t i = 0; i < LedsCount; i++) {
+            digitalWrite(Leds[i], HIGH);
+        }
+        for (uint8_t i = 0; i < LedWidgetsCount; i++) {
+            LedWidgets[i]->off();
+        }
     }
 }

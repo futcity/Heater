@@ -15,6 +15,11 @@
 #define DEFAULT_SENSOR	0
 #define TEMP_RETRIES	5
 
-void HeaterUpdate(bool status);
+uint8_t HeaterGetThreshold();
+void HeaterSetThreshold(uint8_t val);
+bool HeaterGetStatus();
+void HeaterSetStatus(bool val);
+void HeaterSwitchStatus();
+void HeaterUpdate();
 
 #endif
