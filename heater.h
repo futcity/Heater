@@ -17,6 +17,8 @@
 
 uint8_t HeaterGetThreshold();
 void HeaterSetThreshold(uint8_t val);
+uint8_t HeaterGetExtThreshold();
+void HeaterSetExtThreshold(uint8_t val);
 bool HeaterGetStatus();
 void HeaterSetStatus(bool val);
 void HeaterSwitchStatus();

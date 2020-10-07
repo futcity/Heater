@@ -46,3 +46,8 @@ BLYNK_WRITE(VP_THRESHOLD)
 {
     HeaterSetThreshold(param.asInt());
 }
+
+BLYNK_WRITE(VP_EXT_THRESHOLD)
+{
+    HeaterSetExtThreshold(param.asInt());
+}

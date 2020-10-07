@@ -18,6 +18,8 @@
 //#define BOARD_NODEMCU_V1
 #define BOARD_SONOFF_POW
 
+//#define WARM_FLOOR_DEVICE
+
 typedef enum {
     STATUS_LED
 } LedType;
@@ -31,7 +33,8 @@ typedef enum {
 } RelayType;
 
 typedef enum {
-    AIR_SENSOR
+    MAIN_SENSOR,
+    EXT_SENSOR
 } TempSensorType;
 
 extern uint8_t ButtonsCount;
@@ -43,5 +46,7 @@ extern uint8_t Relays[];
 extern uint8_t Leds[];
 extern uint8_t Buttons[];
 extern DallasTemperature *TempSensors[];
+
+void BoardInit();
 
 #endif

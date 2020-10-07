@@ -9,8 +9,6 @@
 #ifndef __COMMON_H__
 #define __COMMON_H__
 
-#define BLYNK_PRINT Serial
-
 #include <ESP8266WiFi.h>
 #include <BlynkEsp8266.h>
 

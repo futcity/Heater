@@ -11,14 +11,16 @@
 
 #include <WidgetLED.h>
 
-#define VP_STATUS_SWITCH 	V0
+#define VP_STATUS_SWITCH    V0
 
-#define VP_LED_STATUS	V10
-#define VP_LED_HEATER	V11
+#define VP_LED_STATUS   V10
+#define VP_LED_HEATER   V11
 
-#define VP_THRESHOLD	V20
+#define VP_THRESHOLD        V20
+#define VP_EXT_THRESHOLD    V21
 
-#define VP_CUR_TEMP		V30
+#define VP_CUR_TEMP         V30
+#define VP_CUR_EXT_TEMP     V31
 
 typedef enum {
     STATUS_LED_WIDGET,
@@ -29,5 +31,5 @@ extern uint8_t LedWidgetsCount;
 extern WidgetLED *LedWidgets[];
 
 void PortsInit();
-
+ 
 #endif

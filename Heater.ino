@@ -34,21 +34,9 @@ static void MainTimerCallback()
 
 void setup()
 {
+    BoardInit();
     PortsInit();
     Blynk.begin(DEVICE_KEY, WIFI_SSID, WIFI_PASSWD, BLYNK_SERVER, BLYNK_SERVER_PORT);
-
-    for (uint8_t i = 0; i < ButtonsCount; i++) {
-        pinMode(Buttons[i], INPUT_PULLUP);
-    }
-
-    for (uint8_t i = 0; i < RelaysCount; i++) {
-        pinMode(Relays[i], OUTPUT);
-    }
-
-    for (uint8_t i = 0; i < LedsCount; i++) {
-        pinMode(Leds[i], OUTPUT);
-    }
-
     MainTimer.setInterval(MAIN_TMR_DELAY, MainTimerCallback);
 }
 
