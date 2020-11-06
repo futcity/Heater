@@ -14,6 +14,8 @@
 bool Status = false;
 uint8_t Threshold = 25;
 uint8_t ExtThreshold = 25;
+int8_t LastTemp[MAX_SENSORS];
+uint8_t Counter = 0;
 
 /*
  * Private functions
@@ -75,6 +77,13 @@ void HeaterUpdate()
             break;
         delay(100);
     }
+
+    if (curTemp[MAIN_SENSOR] != LastTemp[MAIN_SENSOR]) {
+        LastTemp[MAIN_SENSOR] = curTemp[MAIN_SENSOR];
+        Counter = 0;
+        return;
+    }
+
 #ifdef WARM_FLOOR_DEVICE
     for (uint8_t j = 0; j < TEMP_RETRIES; j++) {
         curTemp[EXT_SENSOR] = ReadTemp(EXT_SENSOR);
@@ -83,6 +92,12 @@ void HeaterUpdate()
         delay(100);
     }
 #endif
+
+    if (curTemp[EXT_SENSOR] != LastTemp[EXT_SENSOR]) {
+        LastTemp[EXT_SENSOR] = curTemp[EXT_SENSOR];
+        Counter = 0;
+        return;
+    }
 
     Blynk.virtualWrite(VP_CUR_TEMP, curTemp[MAIN_SENSOR]);
 #ifdef WARM_FLOOR_DEVICE
@@ -101,6 +116,12 @@ void HeaterUpdate()
         return;
     }
 #endif
+
+    Counter++;
+    if (Counter < MAX_CNT)
+        return;
+    else
+        Counter = 0;
 
     /*
      * Update status

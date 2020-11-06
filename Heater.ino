@@ -13,7 +13,7 @@
 #include "common.h"
 #include "heater.h"
 
-#define MAIN_TMR_DELAY  4000
+#define MAIN_TMR_DELAY  1000
 
 SimpleTimer MainTimer;
 

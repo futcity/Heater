@@ -11,9 +11,11 @@
 
 #include <Arduino.h>
 
-#define TEMP_ERR_VAL	-127
-#define DEFAULT_SENSOR	0
-#define TEMP_RETRIES	5
+#define TEMP_ERR_VAL    -127
+#define DEFAULT_SENSOR  0
+#define TEMP_RETRIES    5
+#define MAX_SENSORS     2
+#define MAX_CNT         4
 
 uint8_t HeaterGetThreshold();
 void HeaterSetThreshold(uint8_t val);
